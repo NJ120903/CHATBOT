@@ -35,13 +35,12 @@ Chatbot Interaction:
 Enter your messages in the input field and click "Send" or press Enter.
 Enable "Voice Output" to hear the chatbot's responses.
 Use the "Speak" button to provide voice input.
-File Organizer:
 
+File Organizer:
 Click on the "Open File Organizer" button to launch the file organizer window.
 Select a directory and click "Organize" to sort files into predefined categories.
 File Organizer Categories
 The files are organized into the following categories:
-
 Images: jpg, jpeg, png, gif, bmp <br>
 Documents: txt, doc, docx, pdf, xls, xlsx, ppt, pptx <br>
 Videos: mp4, avi, mov, mkv <br>
@@ -50,6 +49,7 @@ Archives: zip, rar, 7z, tar, gz <br>
 Executables: exe, msi, bat <br>
 Programming: py, java, c, cpp, h, html, css, js <br>
 Others: Any other file types <br>
+
 Project Structure
 ui.py: Main GUI code that integrates chatbot and file organizer functionalities.
 brain.py: Logic for chatbot interaction using the LLAMA3 AI model, handling conversation history.
