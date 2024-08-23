@@ -43,13 +43,13 @@ File Organizer Categories
 The files are organized into the following categories:
 
 Images: jpg, jpeg, png, gif, bmp <br>
-Documents: txt, doc, docx, pdf, xls, xlsx, ppt, pptx
-Videos: mp4, avi, mov, mkv
-Music: mp3, wav, flac, aac
-Archives: zip, rar, 7z, tar, gz
-Executables: exe, msi, bat
-Programming: py, java, c, cpp, h, html, css, js
-Others: Any other file types
+Documents: txt, doc, docx, pdf, xls, xlsx, ppt, pptx <br>
+Videos: mp4, avi, mov, mkv <br>
+Music: mp3, wav, flac, aac <br>
+Archives: zip, rar, 7z, tar, gz <br>
+Executables: exe, msi, bat <br>
+Programming: py, java, c, cpp, h, html, css, js <br>
+Others: Any other file types <br>
 Project Structure
 ui.py: Main GUI code that integrates chatbot and file organizer functionalities.
 brain.py: Logic for chatbot interaction using the LLAMA3 AI model, handling conversation history.
