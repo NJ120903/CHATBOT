@@ -10,31 +10,28 @@ Installation
 To set up the project, follow these steps:
 
 Clone the Repository:
-
-bash
-Copy code
 ```
-git clone https://github.com/yourusername/MGM-Chatbot.git
-cd MGM-Chatbot
+git clone https://github.com/yourusername/CHATBOT.git
+cd CHATBOT
 ```
 Install Required Dependencies:
 Ensure you have Python 3.7+ installed. Use pip to install the necessary packages:
 
-bash
-Copy code
+```
 pip install PyQt5 pyttsx3 SpeechRecognition rich
+```
 Run the Application:
-
-bash
-Copy code
+```
 python ui.py
-Usage
-Login: Start the application. A login window will appear. Use the default credentials:
+```
 
+# Usage
+
+Login: Start the application. A login window will appear. Use the default credentials:
 Username: admin
 Password: admin@123
-Chatbot Interaction:
 
+Chatbot Interaction:
 Enter your messages in the input field and click "Send" or press Enter.
 Enable "Voice Output" to hear the chatbot's responses.
 Use the "Speak" button to provide voice input.
