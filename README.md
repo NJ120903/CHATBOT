@@ -11,7 +11,7 @@ To set up the project, follow these steps:
 
 Clone the Repository:
 ```
-git clone https://github.com/yourusername/CHATBOT.git
+git clone https://github.com/NJ120903/CHATBOT.git
 cd CHATBOT
 ```
 Install Required Dependencies:
@@ -31,12 +31,14 @@ Login: Start the application. A login window will appear. Use the default creden
 Username: admin
 Password: admin@123
 
-Chatbot Interaction:
+# Chatbot Interaction:
+
 Enter your messages in the input field and click "Send" or press Enter.
 Enable "Voice Output" to hear the chatbot's responses.
 Use the "Speak" button to provide voice input.
 
-File Organizer:
+# File Organizer:
+
 Click on the "Open File Organizer" button to launch the file organizer window.
 Select a directory and click "Organize" to sort files into predefined categories.
 File Organizer Categories
@@ -50,23 +52,26 @@ Executables: exe, msi, bat <br>
 Programming: py, java, c, cpp, h, html, css, js <br>
 Others: Any other file types <br>
 
-Project Structure
-ui.py: Main GUI code that integrates chatbot and file organizer functionalities.
-brain.py: Logic for chatbot interaction using the LLAMA3 AI model, handling conversation history.
-webscout.py: Not included here but assumed to be a module for the LLAMA3 AI interface.
-Dependencies
-PyQt5: For creating the main GUI.
-Tkinter: For the file organizer GUI.
-pyttsx3: For text-to-speech functionality.
-SpeechRecognition: For capturing and processing voice input.
-rich: For improved console output during development.
-LLAMA3: Assumed to be a custom or third-party AI model interface used in brain.py.
-Contributing
+# Project Structure
+
+ui.py: Main GUI code that integrates chatbot and file organizer functionalities. <br>
+brain.py: Logic for chatbot interaction using the LLAMA3 AI model, handling conversation history. <br>
+webscout.py: Not included here but assumed to be a module for the LLAMA3 AI interface. <br>
+
+# Dependencies
+
+PyQt5: For creating the main GUI. <br>
+Tkinter: For the file organizer GUI.<br>
+pyttsx3: For text-to-speech functionality. <br>
+SpeechRecognition: For capturing and processing voice input. <br>
+rich: For improved console output during development. <br>
+LLAMA3: Assumed to be a custom or third-party AI model interface used in brain.py. <br>
+
+# Contributing
+
 Contributions are welcome! Please fork the repository and create a pull request with your changes. Make sure to follow the existing code style and include documentation for any new features.
 
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
+# Acknowledgments
 
-Acknowledgments
 Thanks to the developers of PyQt5, Tkinter, pyttsx3, SpeechRecognition, and other libraries used in this project.
 The LLAMA3 AI model used for chatbot responses.
