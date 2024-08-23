@@ -42,7 +42,7 @@ Select a directory and click "Organize" to sort files into predefined categories
 File Organizer Categories
 The files are organized into the following categories:
 
-Images: jpg, jpeg, png, gif, bmp
+Images: jpg, jpeg, png, gif, bmp <br>
 Documents: txt, doc, docx, pdf, xls, xlsx, ppt, pptx
 Videos: mp4, avi, mov, mkv
 Music: mp3, wav, flac, aac
