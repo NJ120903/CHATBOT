@@ -6,7 +6,10 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QTextEdit, QLineEdit, QPushBut
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import QTimer, QThread, pyqtSignal
 import pyttsx3
+import platform
+import subprocess
 import speech_recognition as sr
+import webbrowser
 from brain import Main_Brain
 
 # File Organizer logic
@@ -186,7 +189,16 @@ class ChatbotWindow(QWidget):
         self.send_message()
 
     def display_response(self, user_message):
-        response = Main_Brain(user_message)  # Use Main_Brain to generate the response
+        if user_message.startswith("open app"):
+            app_name = user_message.split("open app", 1)[1].strip()
+            response = self.open_application(app_name)
+        elif user_message.startswith("open website"):
+            website = user_message.split("open website", 1)[1].strip()
+            webbrowser.open(f"http://{website}")
+            response = f"Opening website {website}"
+        else:
+            response = Main_Brain(user_message)  # Use Main_Brain to generate the response
+
         self.chat_display.append(f"<p style='color: #66cc99;'><b>Chatbot:</b> {response}</p>")
         cursor = self.chat_display.textCursor()
         cursor.movePosition(cursor.End)
@@ -197,33 +209,70 @@ class ChatbotWindow(QWidget):
             self.tts_engine.say(response)
             self.tts_engine.runAndWait()
 
+    def open_application(self, app_name):
+        if platform.system() == 'Windows':
+            # Common directories for application executables
+            common_dirs = [
+                os.environ.get('PROGRAMFILES', ''),
+                os.environ.get('PROGRAMFILES(X86)', ''),
+                os.environ.get('LOCALAPPDATA', '')
+            ]
+            
+            # Known application paths for common applications
+            known_apps = {
+                'notepad': 'notepad.exe',
+                'calculator': 'calc.exe',
+                'wordpad': 'wordpad.exe'
+                # Add more known apps here if needed
+            }
+            
+            # Check if the app_name is in the known apps
+            if app_name.lower() in known_apps:
+                app_path = known_apps[app_name.lower()]
+                try:
+                    subprocess.Popen(app_path)
+                    return f"{app_name.capitalize()} has been opened."
+                except Exception as e:
+                    return f"Error opening {app_name}: {str(e)}"
+
+            # General search in common directories
+            for directory in common_dirs:
+                if directory:
+                    for root, dirs, files in os.walk(directory):
+                        for file in files:
+                            if file.lower().startswith(app_name.lower()) and file.lower().endswith(('.exe', '.bat')):
+                                try:
+                                    subprocess.Popen(os.path.join(root, file))
+                                    return f"Opened {app_name}"
+                                except Exception as e:
+                                    return f"Error opening {app_name}: {str(e)}"
+            
+            return f"{app_name} not found on your PC."
+        else:
+            return "This feature is only available on Windows."
+
     def start_file_organizer(self):
-        organizer_root = tk.Tk()
-        organizer_root.title("File Organizer")
+        file_organizer_window = tk.Tk()
+        file_organizer_window.title("File Organizer")
 
-        frame = ttk.Frame(organizer_root, padding="10")
-        frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+        # Initialize progress variable
+        progress_var = tk.DoubleVar()
 
-        directory_label = ttk.Label(frame, text="Select Directory:")
-        directory_label.grid(row=0, column=0, sticky=tk.W)
+        # Progress label
+        progress_label = tk.Label(file_organizer_window, text="Progress: 0 / 0", font=("Arial", 14))
+        progress_label.pack(pady=10)
 
-        directory_entry = ttk.Entry(frame, width=50)
-        directory_entry.grid(row=0, column=1, padx=5, pady=5)
+        def browse_directory():
+            directory = filedialog.askdirectory()
+            if directory:
+                organize_files(directory, progress_var, progress_label, file_organizer_window)
+                messagebox.showinfo("File Organizer", "Files have been organized.")
 
-        browse_button = ttk.Button(frame, text="Browse", command=lambda: browse_directory(directory_entry))
-        browse_button.grid(row=0, column=2, padx=5, pady=5)
+        browse_button = tk.Button(file_organizer_window, text="Browse Directory", command=browse_directory, font=("Arial", 14))
+        browse_button.pack(pady=10)
 
-        # Create progress_var and progress_label here
-        progress_var = tk.IntVar()
-        progress_label = ttk.Label(frame, text="Progress: 0 / 0")
-        progress_label.grid(row=2, column=1, pady=5)
+        file_organizer_window.mainloop()
 
-        organize_button = ttk.Button(frame, text="Organize", command=lambda: organize(directory_entry.get(), progress_var, progress_label, organizer_root))
-        organize_button.grid(row=1, column=1, pady=10)
-
-        organizer_root.mainloop()
-
-# Voice Input Thread
 class VoiceInputThread(QThread):
     recognized_text = pyqtSignal(str)
 
@@ -231,71 +280,18 @@ class VoiceInputThread(QThread):
         recognizer = sr.Recognizer()
         with sr.Microphone() as source:
             recognizer.adjust_for_ambient_noise(source)
-            audio_data = recognizer.listen(source)
+            audio = recognizer.listen(source)
             try:
-                text = recognizer.recognize_google(audio_data)
+                text = recognizer.recognize_google(audio)
                 self.recognized_text.emit(text)
             except sr.UnknownValueError:
-                self.recognized_text.emit("Sorry, I didn't catch that.")
+                self.recognized_text.emit("Sorry, I did not understand that.")
             except sr.RequestError:
                 self.recognized_text.emit("Sorry, there was an error with the speech recognition service.")
 
-# Login Dialog
-class LoginDialog(QDialog):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Login")
-        self.setGeometry(300, 300, 300, 150)
-
-        layout = QFormLayout()
-
-        self.username_input = QLineEdit()
-        self.password_input = QLineEdit()
-        self.password_input.setEchoMode(QLineEdit.Password)
-        
-        self.login_button = QPushButton("Login")
-        self.login_button.clicked.connect(self.authenticate)
-
-        layout.addRow(QLabel("Username:"), self.username_input)
-        layout.addRow(QLabel("Password:"), self.password_input)
-        layout.addRow(self.login_button)
-
-        self.setLayout(layout)
-
-    def authenticate(self):
-        username = self.username_input.text()
-        password = self.password_input.text()
-
-        if username == "admin" and password == "admin@123":
-            self.accept()
-        else:
-            self.reject()
-
-# Helper functions for File Organizer
-def browse_directory(entry):
-    directory = filedialog.askdirectory()
-    if directory:
-        entry.delete(0, tk.END)
-        entry.insert(0, directory)
-
-def organize(directory, progress_var, progress_label, root_window):
-    if not os.path.isdir(directory):
-        messagebox.showerror("Error", "Invalid directory path")
-        return
-    organize_files(directory, progress_var, progress_label, root_window)
-    messagebox.showinfo("Success", "Files organized successfully")
-
-# Main Function
-if __name__ == '__main__':
+if __name__ == "__main__":
     import sys
-
     app = QApplication(sys.argv)
-
-    # Show login dialog
-    login_dialog = LoginDialog()
-    if login_dialog.exec_() == QDialog.Accepted:
-        chatbot_window = ChatbotWindow()
-        chatbot_window.show()
-        sys.exit(app.exec_())
-    else:
-        sys.exit()
+    chatbot = ChatbotWindow()
+    chatbot.show()
+    sys.exit(app.exec_())
