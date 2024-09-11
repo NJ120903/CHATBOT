@@ -5,7 +5,9 @@ Welcome to the MGM Chatbot project! This application provides a chatbot interfac
 Chatbot Interface: A friendly and interactive chatbot to assist with various tasks.
 Voice Input and Output: Speak to the chatbot and listen to its responses using speech recognition and text-to-speech capabilities.
 File Organizer: Organize files in your selected directory based on their types (e.g., Images, Documents, Videos, etc.).
-Login Functionality: Secure login system to access the chatbot functionalities.
+Login Functionality: Secure login system to access the chatbot functionalities. It also Opens any website by command "open website <websitename.com>" and any app using command "open app <appname>"
+Make sure you give correct app location to the code while editing it
+
 Installation
 To set up the project, follow these steps:
 
